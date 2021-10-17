@@ -107,7 +107,7 @@ void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, i
         layer lk = net.layers[k];
         if (lk.type == YOLO || lk.type == GAUSSIAN_YOLO || lk.type == REGION) {
             l = lk;
-            printf(" Detection layer: %d - type = %d \n", k, l.type);
+            //printf(" Detection layer: %d - type = %d \n", k, l.type);[gab]
         }
     }
 
@@ -662,7 +662,7 @@ void validate_detector(char *datacfg, char *cfgfile, char *weightfile, char *out
         layer lk = net.layers[k];
         if (lk.type == YOLO || lk.type == GAUSSIAN_YOLO || lk.type == REGION) {
             l = lk;
-            printf(" Detection layer: %d - type = %d \n", k, l.type);
+            //printf(" Detection layer: %d - type = %d \n", k, l.type);[gab]
         }
     }
     int classes = l.classes;
@@ -983,7 +983,7 @@ float validate_detector_map(char *datacfg, char *cfgfile, char *weightfile, floa
         layer lk = net.layers[k];
         if (lk.type == YOLO || lk.type == GAUSSIAN_YOLO || lk.type == REGION) {
             l = lk;
-            printf(" Detection layer: %d - type = %d \n", k, l.type);
+            //printf(" Detection layer: %d - type = %d \n", k, l.type);[gab]
         }
     }
     int classes = l.classes;
@@ -1610,6 +1610,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
     list *options = read_data_cfg(datacfg);
     char *name_list = option_find_str(options, "names", "data/names.list");
     int names_size = 0;
+    int count2 = -1; //[gab]
     char **names = get_labels_custom(name_list, &names_size); //get_labels(name_list);
 
     image **alphabet = load_alphabet();
@@ -1643,13 +1644,14 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
     int j;
     float nms = .45;    // 0.4F
     while (1) {
+        ++count2;//[gab]
         if (filename) {
             strncpy(input, filename, 256);
             if (strlen(input) > 0)
                 if (input[strlen(input) - 1] == 0x0d) input[strlen(input) - 1] = 0;
         }
         else {
-            printf("Enter Image Path: ");
+            //printf("Enter Image Path: \n");[gab]
             fflush(stdout);
             input = fgets(input, 256, stdin);
             if (!input) break;
@@ -1668,7 +1670,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             layer lk = net.layers[k];
             if (lk.type == YOLO || lk.type == GAUSSIAN_YOLO || lk.type == REGION) {
                 l = lk;
-                printf(" Detection layer: %d - type = %d \n", k, l.type);
+                //printf(" Detection layer: %d - type = %d \n", k, l.type);[gab]
             }
         }
 
@@ -1682,7 +1684,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
         double time = get_time_point();
         network_predict(net, X);
         //network_predict_image(&net, im); letterbox = 1;
-        printf("%s: Predicted in %lf milli-seconds.\n", input, ((double)get_time_point() - time) / 1000);
+        //printf("%s: Predicted in %lf milli-seconds.\n", input, ((double)get_time_point() - time) / 1000);[gab]
         //printf("%s: Predicted in %f seconds.\n", input, (what_time_is_it_now()-time));
 
         int nboxes = 0;
@@ -1691,7 +1693,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             if (l.nms_kind == DEFAULT_NMS) do_nms_sort(dets, nboxes, l.classes, nms);
             else diounms_sort(dets, nboxes, l.classes, nms, l.nms_kind, l.beta_nms);
         }
-        draw_detections_v3(im, dets, nboxes, thresh, names, alphabet, l.classes, ext_output);
+        draw_detections_v3(im, dets, nboxes, thresh, names, alphabet, l.classes, ext_output,count2);
         save_image(im, "predictions");
         if (!dont_show) {
             show_image(im, "predictions");
@@ -1832,7 +1834,7 @@ void draw_object(char *datacfg, char *cfgfile, char *weightfile, char *filename,
             layer lk = net.layers[k];
             if (lk.type == YOLO || lk.type == GAUSSIAN_YOLO || lk.type == REGION) {
                 l = lk;
-                printf(" Detection layer: %d - type = %d \n", k, l.type);
+                //printf(" Detection layer: %d - type = %d \n", k, l.type);[gab]
             }
         }
 

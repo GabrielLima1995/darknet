@@ -462,7 +462,7 @@ int main(int argc, char **argv)
 
 #ifndef GPU
     gpu_index = -1;
-    printf(" GPU isn't used \n");
+    //printf(" GPU isn't used \n");[gab]
     init_cpu();
 #else   // GPU
     if(gpu_index >= 0){
