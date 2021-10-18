@@ -1,4 +1,17 @@
 import pandas as pd
+import argparse
+
+parser = argparse.ArgumentParser(description='This script parses an yolo list of predictions')
+parser.add_argument("-i", "--input", required=True,
+	help="input path",metavar='i')
+#parser.add_argument('--sum', dest='accumulate', action='store_const',
+                    #const=sum, default=max,
+                    #help='sum the integers (default: find the max)')
+
+args = parser.parse_args()
+#print(args.accumulate(args.integers))
+
+'''
 
 detections = pd.read_csv("cfg/result.txt",lineterminator="\n",sep=":",header=None)
 detections.columns =['images','class_Ids','boxes','confidences']
@@ -32,12 +45,14 @@ for key in cord_boxes:
        det += eval('[' + w + ']')
     list_cord_boxes+=[det]
 
-with open('cfg/class_pred_22000_yolo_list.txt', 'w') as f:
+with open('cfg/class_list.txt', 'w') as f:
      for item in list_class_ids:
          f.write("%s\n" % item)
 
-with open('cfg/cord_pred_22000_yolo_list.txt', 'w') as f:
+with open('cfg/cord_list.txt', 'w') as f:
     for item in list_cord_boxes:
         f.write("%s\n" % item)
 
-detections.to_csv('cfg/detections_yolo_22000.txt',sep=' ',index=False)
+detections.to_csv('cfg/detections.txt',sep=' ',index=False)
+
+'''
