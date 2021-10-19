@@ -3,7 +3,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='This script parses an yolo list of predictions')
 parser.add_argument("-i", "--input", required=True,
-	help="input path",metavar='i')
+	help="input path")
 #parser.add_argument('--sum', dest='accumulate', action='store_const',
                     #const=sum, default=max,
                     #help='sum the integers (default: find the max)')
