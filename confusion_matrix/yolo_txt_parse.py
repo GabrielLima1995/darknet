@@ -2,20 +2,20 @@ import pandas as pd
 import argparse
 
 parser = argparse.ArgumentParser(description='This script parses an yolo list of predictions')
-parser.add_argument("-i", "--input", required=True,
-	help="input path")
-#parser.add_argument('--sum', dest='accumulate', action='store_const',
-                    #const=sum, default=max,
-                    #help='sum the integers (default: find the max)')
 
-args = parser.parse_args()
-#print(args.accumulate(args.integers))
+parser.add_argument("-r", "--result", required=True,
+	help="result path")
+parser.add_argument("-n", "--names", required=True,
+	help="names path")
+parser.add_argument("-o", "--output", required=True,
+	help="output path")
 
-'''
 
-detections = pd.read_csv("cfg/result.txt",lineterminator="\n",sep=":",header=None)
+args = vars(parser.parse_args())
+
+detections = pd.read_csv(args['result'],lineterminator="\n",sep=":",header=None)
 detections.columns =['images','class_Ids','boxes','confidences']
-names = pd.read_csv("cfg/buracos.names",sep="\n",header=None).values
+names = pd.read_csv(args['names'],sep="\n",header=None).values
 detections['class_Ids'] = detections['class_Ids'].str.strip()
 
 for i in range(len(names)):
@@ -45,14 +45,12 @@ for key in cord_boxes:
        det += eval('[' + w + ']')
     list_cord_boxes+=[det]
 
-with open('cfg/class_list.txt', 'w') as f:
+with open('{}/class_list.txt'.format(args['output']), 'w') as f:
      for item in list_class_ids:
          f.write("%s\n" % item)
 
-with open('cfg/cord_list.txt', 'w') as f:
+with open('{}/cord_list.txt'.format(args['output']), 'w') as f:
     for item in list_cord_boxes:
         f.write("%s\n" % item)
 
-detections.to_csv('cfg/detections.txt',sep=' ',index=False)
-
-'''
+detections.to_csv('{}/detections.txt'.format(args['output']),sep=' ',index=False)

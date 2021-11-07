@@ -8,23 +8,22 @@ from IoU import bb_intersection_over_union
 
 class get():
 
-    def matrix(self):
+    def matrix(self,image_folder,main_path,image_list_name):
 
         confusion_matrix = np.zeros((12,12))
-        conf='cfg/'
         ground_truth = glabels()
-        bbox = ground_truth.truth()
-        path = pd.read_csv(conf+"test.txt",header=None)
+        bbox = ground_truth.truth(image_folder,main_path+image_list_name,main_path)
+        path = pd.read_csv("{}/{}".format(main_path,image_list_name),header=None)
         #color   = (0, 0, 255)
         #colorp  = (0,255,  0)
         #fn = 0
         fp = 0
         tp = 0
 
-        with open(conf+'cord_pred_22000_yolo_list.txt') as f:
+        with open('{}/cord_list.txt'.format(main_path)) as f:
             mainlist = [list(literal_eval(line)) for line in f]
 
-        with open(conf+'class_pred_22000_yolo_list.txt') as f:
+        with open('{}/class_list.txt'.format(main_path)) as f:
             classlist = [list(literal_eval(line)) for line in f]
 
         for i in range(len(path)):

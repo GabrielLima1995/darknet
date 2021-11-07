@@ -6,10 +6,10 @@ import os
 class Yolo():
 	'Yolo-network i.e give a image input and it gives back a object detection'
 
-	def net(self,image,cfg,par_confidence=0.25,threshold =0.4):
+	def net(self,image,file_path,weights_name,cfg_name,par_confidence=0.25,threshold =0.4):
 
-		weightsPath = os.path.sep.join([cfg, "buracos_22000.weights"])
-		configPath = os.path.sep.join([cfg, "buracos.cfg"])
+		weightsPath = os.path.sep.join([file_path, weights_name])
+		configPath = os.path.sep.join([file_path, cfg_name])
 
 		net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
 
